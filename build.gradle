@@ -104,22 +104,18 @@ repositories {
         name = "Progwml6 maven"
         url = "https://dvs1.progwml6.com/files/maven/"
     }
-    maven {
-        // location of a maven mirror for JEI files, as a fallback
-        name = "ModMaven"
-        url = "https://modmaven.k-4u.nl"
-    }
-    maven {
-        name = "GitHubPackages"
-        url = uri("https://maven.pkg.github.com/crimix/bml")
-        credentials {
-            username = github_user
-            password = github_token
-        }
-        content {
-            includeGroup "com.black_dog20.bml"
-        }
-    }
+//    maven {
+//        // location of a maven mirror for JEI files, as a fallback
+//        name = "ModMaven"
+//        url = "https://modmaven.k-4u.nl"
+//    }
+//    maven {
+//        name = "GitHubPackages"
+//        url = uri("https://maven.pkg.github.com/crimix/bml")
+//        content {
+//            includeGroup "com.black_dog20.bml"
+//        }
+//    }
     mavenLocal()
 }
 
@@ -148,32 +144,32 @@ shadowJar {
     relocate 'com.black_dog20.bml', 'com.black_dog20.servertabinfo.repack.bml'
 }
 
-curseforge {
-    apiKey = curse_apiKey
-    project {
-        id = '291788'
-        changelogType = 'markdown'
-        changelog = "As always find the changelog here [CHANGELOG](${changelog_url})"
-        releaseType = 'release'
-        addGameVersion 'Forge'
-        addGameVersion 'Java 17'
-        addGameVersion '1.19.1'
-        relations {
-            optionalDependency 'permission-levels'
-        }
-    }
-}
-
-modrinth {
-    token = modrinth_token
-    projectId = "VZptDEBF"
-    uploadFile = jar
-    versionNumber = "${mc_version}-${version}"
-    changelog = "As always find the changelog here [CHANGELOG](${changelog_url})"
-    versionType = "release"
-    loaders = ["forge"]
-    gameVersions = ["1.19.1"]
-    dependencies {
-        optional.project "liHwiCTl"
-    }
-}
+//curseforge {
+//    apiKey = curse_apiKey
+//    project {
+//        id = '291788'
+//        changelogType = 'markdown'
+//        changelog = "As always find the changelog here [CHANGELOG](${changelog_url})"
+//        releaseType = 'release'
+//        addGameVersion 'Forge'
+//        addGameVersion 'Java 17'
+//        addGameVersion '1.19.1'
+//        relations {
+//            optionalDependency 'permission-levels'
+//        }
+//    }
+//}
+//
+//modrinth {
+//    token = modrinth_token
+//    projectId = "VZptDEBF"
+//    uploadFile = jar
+//    versionNumber = "${mc_version}-${version}"
+//    changelog = "As always find the changelog here [CHANGELOG](${changelog_url})"
+//    versionType = "release"
+//    loaders = ["forge"]
+//    gameVersions = ["1.19.1"]
+//    dependencies {
+//        optional.project "liHwiCTl"
+//    }
+//}

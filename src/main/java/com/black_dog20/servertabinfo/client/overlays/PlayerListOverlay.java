@@ -22,6 +22,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.client.multiplayer.PlayerInfo;
@@ -29,6 +30,7 @@ import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.scores.Objective;
 import net.minecraft.world.scores.PlayerTeam;
@@ -69,6 +71,7 @@ public class PlayerListOverlay extends GameOverlay.Pre {
     public void onRender(PoseStack matrixStack, int width, int height) {
         if(Keybinds.SHOW.isDown())
             return;
+
         int y = 10;
         int z = 0;
         if (Util.getMillis() - 2000 > lastRenderTime) {
@@ -92,9 +95,69 @@ public class PlayerListOverlay extends GameOverlay.Pre {
         int maxWidth = RowHelper.getMaxWidth(rows);
         int x = width / 2 - maxWidth / 2;
 
+
+        int i3 = rows.size();
+        int j3 = i3;
+
+        int k3;
+        for(k3 = 1; j3 > 20; j3 = (i3 + k3 - 1) / k3) {
+            ++k3;
+        }
+
+        int i1 = Math.min(k3 * ((true ? 9 : 0) + 200 + 0 + 13), width - 50) / k3;
+        int j1 = width / 2 - (i1 * k3 + (k3 - 1) * 5) / 2;
+        int l1 = i1 * k3 + (k3 - 1) * 5;
+
+
+
+        Component header = Minecraft.getInstance().gui.getTabList().header;
+        Component footer = Minecraft.getInstance().gui.getTabList().footer;
+        List<FormattedCharSequence> list1 = null;
+        if (header != null) {
+            list1 = this.minecraft.font.split(header, width - 50);
+
+            for(FormattedCharSequence formattedcharsequence : list1) {
+                l1 = Math.max(l1, this.minecraft.font.width(formattedcharsequence));
+            }
+        }
+
+        List<FormattedCharSequence> list2 = null;
+        if (footer != null) {
+            list2 = this.minecraft.font.split(footer, width - 50);
+
+            for(FormattedCharSequence formattedcharsequence1 : list2) {
+                l1 = Math.max(l1, this.minecraft.font.width(formattedcharsequence1));
+            }
+        }
+
+        if (list1 != null) {
+            Gui.fill(matrixStack, width / 2 - l1 / 2 - 1, y - 1, width / 2 + l1 / 2 + 1, y + list1.size() * 9, Integer.MIN_VALUE);
+
+            for(FormattedCharSequence formattedcharsequence2 : list1) {
+                int i2 = this.minecraft.font.width(formattedcharsequence2);
+                this.minecraft.font.drawShadow(matrixStack, formattedcharsequence2, (float)(width / 2 - i2 / 2), (float)y, -1);
+                y += 9;
+            }
+
+            ++y;
+        }
+
         DrawingContext drawingContext = new DrawingContext(matrixStack, width, height, x, y, z, fontRenderer, itemRenderer);
+        Gui.fill(matrixStack, width / 2 - l1 / 2 - 1, y - 1, width / 2 + l1 / 2 + 1, y + rows.size() * 9, Integer.MIN_VALUE);
         y = RowHelper.drawRowsWithBackground(drawingContext, rows);
-        fontRenderer.drawShadow(matrixStack, PAGE.get(page, maxPages), width / 2 + 2, y + 2, -1);
+        //fontRenderer.drawShadow(matrixStack, PAGE.get(page, maxPages), width / 2 + 2, y + 2, -1);
+
+        if (list2 != null) {
+            y += j3;
+            Gui.fill(matrixStack, width / 2 - l1 / 2 - 1, y - 1, width / 2 + l1 / 2 + 1, y + list2.size() * 9, Integer.MIN_VALUE);
+
+            for(FormattedCharSequence formattedcharsequence3 : list2) {
+                int k4 = this.minecraft.font.width(formattedcharsequence3);
+                this.minecraft.font.drawShadow(matrixStack, formattedcharsequence3, (float)(width / 2 - k4 / 2), (float)y, -1);
+                y += 9;
+            }
+        }
+
         ticks++;
         lastRenderTime = Util.getMillis();
     }
